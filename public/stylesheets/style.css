@@ -238,6 +238,46 @@ body{
     filter: hue-rotate(20deg);
 }
 
+/*SPLASH_STYLING*/
 
+.buttons{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) ;
+
+}
+
+.buttons{
+    display: inline-block;
+}
+
+.rule-btn{
+    background-image: url("../images/RULES.png"); 
+}
+.start-btn{
+    background-image: url("../images/START.png");
+}
+.stat-btn{
+    background-image: url("../images/STATS.png");
+}
+
+.snakeWithLadder{
+    width:8%;
+    height: auto;
+    position: absolute;
+    z-index: 1000;
+    top:5%;
+    left:44%;
+}
+
+.gameName{
+    width:70%;
+    height:auto;
+    position: absolute;
+    top:10%;
+    right:15%;
+}
 
 
