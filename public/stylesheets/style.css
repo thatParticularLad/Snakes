@@ -1,0 +1,243 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+body{
+    background-image:url("../images/bg.png");
+    background-size:cover;
+    width:auto;
+    height:100wh;
+    background-repeat:no-repeat;
+}
+/************BOARD************/
+#board{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    border:2px solid green;
+    
+    width: 32em;
+    height: 32em;
+    float:right;
+}
+/*Board images*/
+
+/*******CHEST_BLOCK*******/
+
+.chest{
+    width: 85%;
+    height:71%;
+    margin-top: -0.5vh;
+    margin-left:0.35vw; 
+}
+
+
+/*******CHEST_BLOCK_END*******/
+
+/*Board images end*/
+.row {
+	height: 4em;
+	width:32em;
+	
+}
+
+/*White squares */
+.square {
+	 float: left;
+	 background-color: rgba(240,230,212,0.75);
+	 height: 4em;
+	 width: 4em;
+	
+}
+
+/*Dark squares */
+.square:nth-child(odd){ 
+    background-color: rgba(50,65,50,0.75); 
+    color:rgb(202, 235, 172);
+	
+}
+
+.row:nth-child(odd) .square{	
+	float:left;
+}
+
+.row:nth-child(even) .square{	
+	float:right;
+}
+/*Styling the numbers in the squares*/
+.numeration  {
+    float:left;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 50;
+    font-size: 1.85vh;
+}
+
+/************BOARD_END************/
+
+/************BUTTON***********/
+
+.btn {
+    display:block;
+    position: absolute;
+    top: 40%;
+    left: 82.5%;
+    margin-right: -35%;
+    transform: translate(-35%, -50%);
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    background: url("../images/dice_button.png");
+    background-size: 100%;
+    float:right;
+  }
+
+  
+
+  /*Responsive button*/
+@media screen and (max-width: 1335px) and (min-height:900px) {
+    .btn {
+    	top: 10%;
+    	left: 50%;
+    	margin-right: -50%;
+        
+    }
+}
+
+@media screen and (max-width: 930px) {
+    .btn {
+        height:80px;
+        width:80px;
+        margin-left:10vh
+        
+    }
+}
+
+  /*******BUTTON_END********/
+
+ .hat{
+    width:100%;
+    z-index: 1000;
+    margin:auto;
+ }
+
+ .occupied1:hover{
+ 	
+ 	transform: scale(1.25);
+
+ 	transition: 0.5s;
+ }
+
+ /*******CLASSES_FOR_OCCUPIED_BLOCKS*******/
+ /*Assign this class to a block that the player stands on*/
+ .occupied1{
+     background-image: url("../images/hat1.png");
+     background-size:100%;
+     background-repeat: no-repeat;
+     background-position: 50%;
+ }
+
+ .occupied2{
+    background-image: url("../images/hat2.png");
+    background-size:100%;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+
+/****************SNEKS******************/
+
+.tinySnek{
+    position:absolute;
+    top:77%;
+    right:27%;
+    width:45px;
+    height:auto;
+    -webkit-filter: hue-rotate(340deg);
+    filter: hue-rotate(340deg);
+}
+
+.smallSnek{
+    position:absolute;
+    top: 17%;
+    right:2%;
+    width:95px;
+    height:auto;
+
+    -webkit-filter: hue-rotate(340deg);
+    filter: hue-rotate(340deg);
+}
+
+.mediumSnek{
+    position:absolute;
+    top: 42%;
+    right:31%;
+    width:140px;
+    height:auto;
+    -webkit-filter: hue-rotate(340deg);
+    filter: hue-rotate(340deg);
+}
+
+.bigSnek{
+    position:absolute;
+    top: 5%;
+    right:77%;
+    width:100px;
+    height:auto;
+    -webkit-filter: hue-rotate(340deg);
+    filter: hue-rotate(340deg);
+}
+
+/*************SNEKS_END*************/
+
+/*************LADDERS***************/
+.lowLadder{
+    position:absolute;
+    top: 80%;
+    right:14%;
+    width:180px;
+    z-index: 100;
+    height:auto; 
+    -webkit-filter: hue-rotate(20deg);
+    filter: hue-rotate(20deg);
+}
+
+.lowLadder2{
+    position:absolute;
+    top: 53%;
+    right:65%;
+    width:100px;
+    z-index: 100;
+    height:auto; 
+    -webkit-filter: hue-rotate(20deg);
+    filter: hue-rotate(20deg);
+}
+
+.mediumLadder{
+    position:absolute;
+    top: 17%;
+    right:65%;
+    width:110px;
+    z-index: 100;
+    height:auto; 
+    -webkit-filter: hue-rotate(20deg);
+    filter: hue-rotate(20deg);
+}
+
+.hugeLadder{
+    position:absolute;
+    transform: rotate(-10deg);
+    top: 6%;
+    right:28%;
+    width:90px;
+    z-index: 100;
+    height:auto; 
+    -webkit-filter: hue-rotate(20deg);
+    filter: hue-rotate(20deg);
+}
+
+
+
+

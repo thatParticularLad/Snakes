@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Snakes & Ladders</title>
+    <link rel="shortcut icon" href="images/snl.png" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="stylesheets/style.css" /> 
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+
+</head> 
+<body>
+    <a class="btn" href="#" onclick="moveFigure()"><i class="dice-btn"></i></a>
+    <!--GAMEBOARD-->
+    <div id="board">
+        <!--SNAKES-->
+        <img src="images/tiny_snek.png" class="tinySnek" alt="">
+        <img src="images/small_snek.png"  class="smallSnek" alt="">
+        <img src="images/medium_snek.png"  class="mediumSnek" alt="">
+        <img src="images/big_snek.png" alt="" class="bigSnek">
+        <!--LADDERS-->
+        <img src="images/low_ladder.png" alt="" class="lowLadder">
+        <img src="images/low_ladder2.png" alt="" class="lowLadder2">
+        <img src="images/medium_ladder.png" alt="" class="mediumLadder">
+        <img src="images/huge_ladder.png" alt="" class="hugeLadder">
+    </div>
+       
+    <!--GAMEBOARD_END-->
+<script src="javascripts/boardGenerator.js"></script>
+<script src="javascripts/gamePlay.js"></script>
+</body>
+</html>
