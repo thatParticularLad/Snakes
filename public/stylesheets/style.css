@@ -1,3 +1,13 @@
+@font-face {
+    font-family: Gobold;
+    src: url(../fonts/Gobold_Regular.otf);
+  }
+
+@font-face {
+    font-family: GoboldCut;
+    src: url(../fonts/Gobold_Cuts.otf);
+}
+
 *{
     margin:0;
     padding:0;
@@ -6,10 +16,10 @@
 body{
     background-image:url("../images/bg.png");
     background-size:cover;
-    width:auto;
-    height:100wh;
+    height:auto;
     background-repeat:no-repeat;
 }
+
 /************BOARD************/
 #board{
     position: absolute;
@@ -81,7 +91,7 @@ body{
 
 .btn {
     display:block;
-    position: absolute;
+    position: fixed;
     top: 40%;
     left: 82.5%;
     margin-right: -35%;
@@ -92,6 +102,28 @@ body{
     background: url("../images/dice_button.png");
     background-size: 100%;
     float:right;
+    animation: spin 3s infinite;
+    animation-delay: 0ms;
+
+  }
+
+  @-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(359deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(359deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(359deg);}
+}
+
+  .btn:active{
+      width: 100px;
+      height: 100px;
+      background-repeat: no-repeat;
   }
 
   
@@ -126,7 +158,6 @@ body{
  .occupied1:hover{
  	
  	transform: scale(1.25);
-
  	transition: 0.5s;
  }
 
@@ -165,7 +196,6 @@ body{
     right:2%;
     width:95px;
     height:auto;
-
     -webkit-filter: hue-rotate(340deg);
     filter: hue-rotate(340deg);
 }
@@ -241,28 +271,73 @@ body{
 /*SPLASH_STYLING*/
 
 .buttons{
+    border: none;
+    padding: 0;
+    background: none;
+    width:auto;
+    height:100vh;
+    transition-property: width;
+    transition-duration: 2s;
+    transition-timing-function: linear;
+    transition-delay: 1s;
+}
+
+.buttons .splash-btn img{
     position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%) ;
-
+    width: 12vw;
+    min-width: 15vw;
+    height: auto;
 }
 
-.buttons{
-    display: inline-block;
+.buttons .splash-btn:hover{
+    cursor:pointer;
 }
 
-.rule-btn{
-    background-image: url("../images/RULES.png"); 
-}
-.start-btn{
-    background-image: url("../images/START.png");
-}
-.stat-btn{
-    background-image: url("../images/STATS.png");
+.buttons #start-btn:hover{
+    -webkit-animation-name: jump; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+    animation-name: jump;
+    animation-duration: 1s;
 }
 
+/* @-webkit-keyframes jump {
+    from {top: 55%;} /* Safari 4.0 - 8.0 
+    to {top: 53%;}  /* Safari 4.0 - 8.0 
+  } 
+  */
+  
+  @keyframes jump {
+    from {top: 55%;}
+    to {top: 53%;}
+  }
+
+.splash-btn{
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+#rule-btn{
+    top:60%;
+    right:65%;
+}
+#rule-btn:active{
+    min-width: 10vw;
+    width:8vw;
+    transition:2s;
+}
+
+#start-btn{
+  top:55%;
+  right:42.5%;
+    
+}
+#stat-btn{
+    top:60%;
+    right:20%;
+}
+
+/* TITLE */
 .snakeWithLadder{
     width:8%;
     height: auto;
@@ -279,5 +354,70 @@ body{
     top:10%;
     right:15%;
 }
+/*TITLE END*/
+
+/* RULES & STATS */
+
+#rules, #stats{
+    position:fixed;
+    background:rgba(255,255,255, 0.5);
+    border: solid green 2px;
+    border-radius: 15px;
+    margin-top:15%;
+    margin-left:20%;
+    text-align: center;
+    width:50%;
+    height:35%;
+    padding:2.5%;
+    z-index: 10000000;
+    
+}
+#rules p::after, #stats p::after{
+    content: ".";
+}
+#rules p::before , #stats p::before {
+    content: '\A'; /*Adds a newline/line break*/
+    white-space: pre; /* Text will only wrap on line breaks*/
+}
+
+#rules h2, #stats h2{
+    line-height: 2.5;
+    margin-top:-8%;
+    margin-bottom:-2%;
+    font-family: GoboldCut;
+}
+
+.special{
+  margin-top:2% !important; /*!IMPORTANT USED!*/
+}
+
+#rules p, #stats p{
+   line-height: 1.5;
+   font-family:Gobold;
+}
+
+#exit, #exit_stats{
+    border: none;
+    padding: 0;
+    background: none;
+    margin:0;
+    width:100%;
+}
+
+#exit img, #exit_stats img{
+    position: relative;
+    width:5%;
+    margin-left:90%;
+}
+
+#exit:hover, #exit_stats:hover{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none;
+}
+
+/* RULES & STATS END */
 
 

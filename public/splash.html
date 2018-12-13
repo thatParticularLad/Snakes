@@ -1,28 +1,60 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Snakes and Ladders</title>
-	<link rel="stylesheet" href="stylesheets/style.css">
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Snakes & Ladders</title>
+	<link rel="shortcut icon" href="images/snl.png" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/style.css">
 </head>
 <body>	
 	<img src="images/SnakesLadders.png" class="gameName" alt="">
 	<img src="images/snl.png" class="snakeWithLadder" alt="">
-				
-	<div class="buttons">
-		<div class="splash_buttons">
-			<button type="button" class="rule-btn">Rules</button>
-		</div>
-				
-		<div class="splash_buttons">
-			<form action="/start" method="GET">
-				<button type="submit" class="start-btn">Start</button>
-			</form>
-		</div>
-				
-		<div class="splash_buttons">
-			<button type="button" class="stat-btn">Stats</button>
-		</div>
+	
+	<!-- GAME RULES -->
+	<div class="rules hidden" id="rules">
+		<button class ="exit" id="exit"><img src="images/exit.png" ></button>
+		<h2>Goal of the game</h2>				
+		<p>
+			Each player takes a turn rolling a die, and moves forward accordingly to the number rolled. <br> 
+			The player to reach the 64th block first wins
+		</p>
+		<h2 class="special">Special blocks:</h2>			
+		<p>				
+			Snakes - moves the player back. <br>
+			Ladders - moves the player forward
+		</p>
 	</div>
+	<!-- END OF GAME RULES -->
+
+	<!-- STATS -->	
+	<div class="hidden" id="stats">
+			<button class ="exit" id="exit_stats"><img src="images/exit.png" ></button>
+			<h2>Goal of the game</h2>				
+			<p>
+				Each player takes a turn rolling a die, and moves forward accordingly to the number rolled.  
+				The player to reach the 64th block first wins
+			</p>
+			<h2 class="special">Special blocks:</h2>			
+			<p>				
+				Snakes - moves the player back. 
+				Ladders - moves the player forward
+			</p>
+		</div>
+		<!-- END OF STATS -->
+	
+	<div class="buttons">
 		
+		<button type="button" class="splash-btn"><img src="images/RULES.png" id="rule-btn" alt=""></button>
+
+		<form action="/start" method="GET">
+			<button type="submit" class="splash-btn"><img src="images/START.png" id="start-btn" alt=""></button>
+		</form>
+			
+		<button type="button" class="splash-btn"><img src="images/STATS.png" id="stat-btn" alt=""></button>
+
+	</div>
+	<script src="javascripts/rules.js"></script>
+	<script src="javascripts/stats.js"></script>	
 </body>
 </html
