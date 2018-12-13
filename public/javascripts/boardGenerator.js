@@ -1,4 +1,5 @@
 //Creating a board
+
 var i = 1; //identification number for rows
 var sqrn = 64; // identification number for squares
 	for(x=0; x<8; x++){ // creating 8 rows of the board
