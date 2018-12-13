@@ -161,6 +161,12 @@ body{
  	transition: 0.5s;
  }
 
+ .occupied2:hover{
+ 	
+    transform: scale(1.25);
+    transition: 0.5s;
+}
+
  /*******CLASSES_FOR_OCCUPIED_BLOCKS*******/
  /*Assign this class to a block that the player stands on*/
  .occupied1{
