@@ -4,8 +4,8 @@ function GameState(socket, sb){
     this.playerType = null;
    
    this.statusBar = sb; //sita reikia padaryti butinai
-   this.currentBlock1 = 55; //PlayerA pozicija
-   this.currentBlock2 = 55; //Player B pozicija
+   this.currentBlock1 = 1; //PlayerA pozicija
+   this.currentBlock2 = 1; //Player B pozicija
    this.rollednum = 0;
 
    this.getRollednum = function(){

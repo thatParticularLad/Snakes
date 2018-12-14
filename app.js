@@ -24,7 +24,9 @@ app.get("/start", function(req, res){
 
 app.get('/', (req, res) => {
     //here gameStatus is an object holding this information
+    //res.cookie("mycookie",1,{httpOnly:false});
     res.render('splash.ejs', { gamesInitialized: gameStatus.gamesInitialized, gamesCompleted: gameStatus.gamesCompleted,  numberofPlayers: gameStatus.numberofPlayers });
+
 })
 
 //
