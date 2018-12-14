@@ -452,14 +452,7 @@ body{
     }
 
     #status span{ 
-        height:100%;
-        margin-bottom: 0;
-        font-family: Gobold;
         font-size: 0.85em;
-        padding-top:5%;
-        color:white;
-        text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
-        letter-spacing: 2px;
     }
 }
 
