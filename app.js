@@ -1,29 +1,34 @@
 var express = require("express");
 var http = require("http");
-var websocket = require("ws");//
+var websocket = require("ws");
+
+var messages = require("./public/javascripts/messages");
+var Game = require("./game");
+var gameStatus = require("./statusTracker");
 
 var port = process.argv[2];
 var app = express();
 
-//
-var messages = require("./public/javascripts/messages");
-
-var Game = require("./game");
-var gameStatus = require("./statusTracker");
-
-//
-
+app.set('view engine', 'ejs')
 app.use(express.static(__dirname + "/public"));
 
 //HTML routes
-app.get("/", function(req, res){
+app.get("/splash", function(req, res){
   res.sendFile("splash.html", {root: "./public"});
 });
 
 app.get("/start", function(req, res){
   res.sendFile("game.html", {root: "./public"});
 });
+
+
+app.get('/', (req, res) => {
+    //here gameStatus is an object holding this information
+    res.render('splash.ejs', { gamesInitialized: gameStatus.gamesInitialized, gamesCompleted: gameStatus.gamesCompleted,  numberofPlayers: gameStatus.numberofPlayers });
+})
+
 //
+
 
 var server = http.createServer(app); //server
 const wss = new websocket.Server({ server }); //creating a socket
@@ -58,6 +63,7 @@ wss.on("connection", function(ws) {
     websockets[con.id] = currentGame;
 
     console.log("Player %s placed in game %s as %s", con.id, currentGame.id, playerType);
+    gameStatus.numberofPlayers++;
     /*
      * inform the client about its assigned player type
      */ 
@@ -160,6 +166,7 @@ wss.on("connection", function(ws) {
             let gameObj = websockets[con.id];
             if (gameObj.isValidTransition(gameObj.gameState, "0 JOINT")) {
                 currentGame.removePlayer();
+                gameStatus.numberofPlayers--;
                 console.log("Player A left before connecting to player B");
                 gameObj.setStatus("0 JOINT");
             }
@@ -167,6 +174,8 @@ wss.on("connection", function(ws) {
             if (gameObj.isValidTransition(gameObj.gameState, "ABORTED")) {
                 gameObj.setStatus("ABORTED"); 
                 gameStatus.gamesAborted++;
+                gameStatus.numberofPlayers--;
+                gameStatus.numberofPlayers--;
 
                 /*
                 * determine whose connection remains open;
