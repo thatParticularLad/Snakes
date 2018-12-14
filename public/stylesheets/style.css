@@ -360,7 +360,7 @@ body{
     margin-left:20%;
     text-align: center;
     width:50%;
-    height:35%;
+    height:40%;
     padding:2.5%;
     z-index: 10000000;
     
@@ -422,9 +422,6 @@ body{
     width:200px;
     float:left;
     font-size: 24px;
-    border: solid 5px rgba(118, 229, 78, 0.75);
-    border-radius: 15px;
-    transition: border-width 0.2s ease-in;
     text-align: center;
     padding:0.5%;
 }
@@ -452,7 +449,6 @@ body{
         width:50%;
         margin-left:25%;
         margin-top:0;
-        transition: border-width 0.2s ease-in;
     }
 
     #status span{ 
@@ -467,7 +463,7 @@ body{
     }
 }
 
-@media screen and (min-width: 1250px) {
+@media screen and (min-width: 1150px) {
     #status{
         margin-left:5%;
     }
