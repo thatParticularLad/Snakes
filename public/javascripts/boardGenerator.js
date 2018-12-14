@@ -30,3 +30,52 @@ var sqrn = 64; // identification number for squares
 	chest.src = "images/chest.png";
 	chest.className = "chest";
 	document.getElementById("s64").appendChild(chest);
+
+/******* Moving squares ***********/
+
+function StatusBar(){
+    this.setStatus = function(status){
+        document.getElementById("statusbar").innerHTML = status;
+    };
+}
+function occupy1(move){
+    var square = document.getElementById('s'+move); 
+    square.classList.add("occupied1"); //give a class to the square on which the hat should be
+} 
+function occupy2(move){
+    var square = document.getElementById('s'+move); 
+    square.classList.add("occupied2"); //give a class to the square on which the hat should be 
+} 
+function deoccupy1(move){
+    var square = document.getElementById('s'+move);
+    square.classList.remove("occupied1"); //remove the hat from the square 
+} 
+function deoccupy2(move){
+    var square = document.getElementById('s'+move);
+    square.classList.remove("occupied2"); //remove the hat from the square 
+} 
+
+function snakes(position){ //snake squares
+    if(position == 11)
+        position = 6;
+    else if(position == 38)
+        position = 13;
+    else if(position == 55)
+        position = 40;
+    else if(position == 63)
+        position = 17;
+    return position;
+}
+
+function ladders(position){ //ladder squares
+    if(position == 5)
+        position = 10;
+    else if(position == 15)
+        position = 30;
+    else if(position == 22)
+        position = 60;
+    else if(position == 35)
+        position = 50;
+    return position;
+}
+

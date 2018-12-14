@@ -85,6 +85,7 @@ game.prototype.setStatus = function (w) {
 
 game.prototype.hasTwoConnectedPlayers = function () {
     return (this.gameState != "ABORTER" && this.gameState != "0 JOINT" && this.gameState != "1 JOINT");
+    //return(this.gameState == "2 JOINT");
 };
 
 game.prototype.addPlayer = function (p) {

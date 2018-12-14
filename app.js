@@ -25,9 +25,6 @@ app.get("/start", function(req, res){
 });
 //
 
-
-
-
 var server = http.createServer(app); //server
 const wss = new websocket.Server({ server }); //creating a socket
 
@@ -65,7 +62,8 @@ wss.on("connection", function(ws) {
      * inform the client about its assigned player type
      */ 
     con.send((playerType == "A") ? messages.S_PLAYER_A : messages.S_PLAYER_B);
-
+    
+  
     /*
      * once we have two players, there is no way back; 
      * a new game object is created;
@@ -109,6 +107,7 @@ wss.on("connection", function(ws) {
          */ 
         if( oMsg.type == messages.T_GAME_WON_BY){
             gameObj.setStatus(oMsg.data);
+            gameObj.playerB.send(message)
             //game was won by somebody, update statistics
             gameStatus.gamesCompleted++;
         }            
@@ -131,6 +130,7 @@ wss.on("connection", function(ws) {
            */ 
           if( oMsg.type == messages.T_GAME_WON_BY){
               gameObj.setStatus(oMsg.data);
+              gameObj.playerA.send(message);
               //game was won by somebody, update statistics
               gameStatus.gamesCompleted++;
           }            
@@ -153,6 +153,10 @@ wss.on("connection", function(ws) {
             * if possible, abort the game; if not, the game is already completed
             */
             let gameObj = websockets[con.id];
+            if (gameObj.isValidTransition(gameObj.gameState, "0 JOINT")) {
+                console.log("in 1 joint ife");
+                gameObj.setStatus("0 JOINT");
+            }
 
             if (gameObj.isValidTransition(gameObj.gameState, "ABORTED")) {
                 gameObj.setStatus("ABORTED"); 
