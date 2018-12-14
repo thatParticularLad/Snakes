@@ -1,9 +1,9 @@
 var Status = {};
 Status["gameWon"] = "Congratulations! You won!";
 Status["gameLost"] = "Game over. You lost!";
-Status["playAgain"] = " <a href='/play'>Play again!</a>";
+Status["playAgain"] = " <a href='/'>Play again!</a>";
 Status["playerIntro"] = "Roll the dice!";
-Status["prompt"] = "Word to guess";
 Status["playerWaiting"] = "Waiting for other player to roll the dice.";
-Status["move"] = "Opponent made a move";
+Status["playerWaitingB"] = "Waiting for other player to join.";
+Status["move"] = "Opponent made a move to square  ";
 Status["aborted"] = "Your gaming partner is no longer available, game aborted. " + Status["playAgain"];

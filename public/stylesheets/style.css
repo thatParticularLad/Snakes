@@ -88,23 +88,30 @@ body{
 /************BOARD_END************/
 
 /************BUTTON***********/
+.btn:disabled{
+    animation: none;
+}
+.diceActive {
+    animation: spin 3s infinite;
+    animation-delay: 0ms;
+    transform: translate(-35%, -50%);
+    cursor:pointer !important; /* labai nenorejau daryt per java scripta, gal jei vienas toks, nieko tokio */
+}
 
 .btn {
     display:block;
     position: fixed;
     top: 40%;
     left: 82.5%;
-    margin-right: -35%;
-    transform: translate(-35%, -50%);
+    margin-right: -35%;    
     height: 120px;
     width: 120px;
     border-radius: 50%;
     background: url("../images/dice_button.png");
     background-size: 100%;
     float:right;
-    animation: spin 3s infinite;
-    animation-delay: 0ms;
-
+    cursor:default;
+    
   }
 
   @-moz-keyframes spin {

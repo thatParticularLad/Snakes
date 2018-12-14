@@ -1,57 +1,11 @@
-function StatusBar(){
-    this.setStatus = function(status){
-        document.getElementById("statusbar").innerHTML = status;
-    };
-}
-function occupy1(move){
-    var square = document.getElementById('s'+move); 
-    square.classList.add("occupied1"); //give a class to the square on which the hat should be
-} 
-function occupy2(move){
-    var square = document.getElementById('s'+move); 
-    square.classList.add("occupied2"); //give a class to the square on which the hat should be 
-} 
-function deoccupy1(move){
-    var square = document.getElementById('s'+move);
-    square.classList.remove("occupied1"); //remove the hat from the square 
-} 
-function deoccupy2(move){
-    var square = document.getElementById('s'+move);
-    square.classList.remove("occupied2"); //remove the hat from the square 
-} 
-
-function snakes(position){ //snake squares
-    if(position == 11)
-        position = 6;
-    else if(position == 38)
-        position = 13;
-    else if(position == 55)
-        position = 40;
-    else if(position == 62)
-        position = 18;
-    return position;
-}
-
-function ladders(position){ //ladder squares
-    if(position == 5)
-        position = 10;
-    else if(position == 15)
-        position = 30;
-    else if(position == 22)
-        position = 60;
-    else if(position == 35)
-        position = 50;
-    return position;
-}
-
 /* basic constructor of game state */
 function GameState(socket, sb){
 
     this.playerType = null;
    
    this.statusBar = sb; //sita reikia padaryti butinai
-   this.currentBlock1 = 1; //PlayerA pozicija
-   this.currentBlock2 = 1; //Player B pozicija
+   this.currentBlock1 = 55; //PlayerA pozicija
+   this.currentBlock2 = 55; //Player B pozicija
    this.rollednum = 0;
 
    this.getRollednum = function(){
@@ -80,11 +34,17 @@ function GameState(socket, sb){
     };
 
     this.setCurrentBlock1 = function (p) {
-        this.currentBlock1 = p;
+        if(p<64)
+            this.currentBlock1 = p;
+        else
+            this.currentBlock1 = 64;
     };
 
     this.setCurrentBlock2 = function (p) {
-        this.currentBlock2 = p;
+        if(p<64)
+            this.currentBlock2 = p;
+        else
+            this.currentBlock2 = 64;
     };
 
     this.whoWon = function(){ 
@@ -97,6 +57,12 @@ function GameState(socket, sb){
             return "B";
         }
         return null; //nobody won yet
+    };
+
+    this.roll = function(){
+        var rolled = Math.floor((Math.random() * 6) + 1); // randomly generated number from one to six
+        window.alert(rolled); // displays the rolled number in an alert
+        this.setRollednum(rolled);
     };
    
 
@@ -129,37 +95,6 @@ function GameState(socket, sb){
                 occupy2(1);                
             }
         }
-
-
-        //is the game complete?
-        let winner = this.whoWon();
-
-        if(winner != null){
-               
-            let alertString;
-            if( winner == this.playerType){
-                alertString = Status["gameWon"];
-            }
-            else {
-                alertString = Status["gameLost"];
-            }
-            alertString += Status["playAgain"];
-            sb.setStatus(alertString);
-
-            //player B sends final message
-            if(this.playerType == "B"){
-                let finalMsg = Messages.O_GAME_WON_BY;
-                finalMsg.data = winner;
-                socket.send(JSON.stringify(finalMsg));
-            }
-            if(this.playerType == "A"){
-                let finalMsg = Messages.O_GAME_WON_BY;
-                finalMsg.data = winner;
-                socket.send(JSON.stringify(finalMsg));
-            }
-            socket.close();
-        }    
-
     };
 }
 
@@ -193,69 +128,73 @@ function GameState(socket, sb){
             
             gs.setPlayerType( incomingMsg.data );//should be "A" or "B"
 
-            //if player type is A, (1) pick a word, and (2) sent it to the server
+            //if player type is A, (1) wait for B
             if (gs.getPlayerType() == "A") {               
 
-                //reikia leisti paspausti mygtuka, po paspaudimo nebeleisti spausti ir laukti
-
-                //sb.setStatus(Status["player1Intro"]); 
-                //ab.initialize();  
-                function rollDice(callback){
-                    const button = document.getElementById('button');
-                    button.addEventListener('click', function singleclick(e) {
-                        console.log('button was clicked');
-                        var rolled = Math.floor((Math.random() * 6) + 1); // randomly generated number from one to six
-                        window.alert(rolled); // displays the rolled number in an alert
-                        gs.setRollednum(rolled); 
-                        console.log(gs.getRollednum());
-
-                        callback();
-                        button.removeEventListener('click', singleclick, false);   
-                    }); 
-                                     
-                } 
-
-                function moveRolled(){          
-                    gs.setCurrentBlock1(gs.getCurrentBlock1() + gs.getRollednum()); //add the rolled number to the current position
-                    gs.setCurrentBlock1(snakes(gs.getCurrentBlock1())); //checking if the hat stepped on the snake
-                    gs.setCurrentBlock1(ladders(gs.getCurrentBlock1())); ///checking if the hat stepped on the ladder
-                    occupy1(gs.getCurrentBlock1());
-
-                    console.log(gs.getCurrentBlock1()); //testuoju
-
-                    let outgoingMsg = Messages.O_A_MOVE;
-                    outgoingMsg.data = gs.getCurrentBlock1();
-                    socket.send(JSON.stringify(outgoingMsg));
-                    console.log(outgoingMsg);
-
-                }              
-                //let res = null;
-                
-               // sb.setStatus(Status["chosen"]+res);  
-                rollDice(moveRolled);               
-    
+                sb.setStatus(Status["playerWaitingB"]);  
             }
+            //if player type B, send READY message and wait for A to move
             else {
-                //sb.setStatus(Status["player2IntroNoTargetYet"]);   
+                sb.setStatus(Status["playerWaiting"]);  
+                let outgoingMsg = Messages.O_B_READY;
+                socket.send(JSON.stringify(outgoingMsg)); 
             }
+        }
+
+        if( incomingMsg.type == Messages.T_B_READY && gs.getPlayerType() == "A"){
+            sb.setStatus(Status["playerIntro"]);  
+            function rollDice(callback){
+                const button = document.getElementById('button');
+                button.classList.add("diceActive");                   
+                button.addEventListener('click', function singleclick(e) {
+                    console.log('button was clicked');
+                    
+                    gs.roll();
+                    callback();
+                    button.removeEventListener('click', singleclick, false);
+                    button.classList.remove("diceActive");
+                    sb.setStatus(Status["playerWaiting"]);   
+                }); 
+                                 
+            } 
+
+            function moveRolled(){          
+                gs.setCurrentBlock1(gs.getCurrentBlock1() + gs.getRollednum()); //add the rolled number to the current position
+                gs.setCurrentBlock1(snakes(gs.getCurrentBlock1())); //checking if the hat stepped on the snake
+                gs.setCurrentBlock1(ladders(gs.getCurrentBlock1())); ///checking if the hat stepped on the ladder
+                occupy1(gs.getCurrentBlock1());
+           
+                let outgoingMsg = Messages.O_A_MOVE;
+                outgoingMsg.data = gs.getCurrentBlock1();
+                socket.send(JSON.stringify(outgoingMsg));
+                console.log(outgoingMsg);
+
+            }              
+            
+            rollDice(moveRolled);               
+
         }
 
         //Player B: wait for the made move and then start guessing ...
         if( incomingMsg.type == Messages.T_A_MOVE && gs.getPlayerType() == "B"){
             console.log(incomingMsg.data); 
+            sb.setStatus(Status["move"] + incomingMsg.data);
             gs.updateGame(gs.getCurrentBlock1(), incomingMsg.data);
+
+            sb.setStatus(Status["playerIntro"]);
 
             function rollDice(callback){
                 const button = document.getElementById('button');
+                button.classList.add("diceActive");
+                button.disabled = false;
                 button.addEventListener('click', function singleclick(e) { 
                     console.log('button was clicked');
-                    var rolled = Math.floor((Math.random() * 6) + 1); // randomly generated number from one to six
-                    window.alert(rolled); // displays the rolled number in an alert
-                    gs.setRollednum(rolled); 
-                    console.log(gs.getRollednum());
-
+                    gs.roll();
+                   
                     callback();
-                    button.removeEventListener('click', singleclick, false);  
+                    button.removeEventListener('click', singleclick, false);
+                    button.classList.remove("diceActive");
+                    
                 });                     
             } 
 
@@ -266,12 +205,27 @@ function GameState(socket, sb){
                 gs.setCurrentBlock2(ladders(gs.getCurrentBlock2())); ///cheking if the hat stepped on the ladder
                 occupy2(gs.getCurrentBlock2()); 
 
-                console.log(gs.getCurrentBlock2());
-                
-                let outgoingMsg = Messages.O_B_MOVE;
-                outgoingMsg.data = gs.getCurrentBlock2();
-                socket.send(JSON.stringify(outgoingMsg));
+                if(gs.getCurrentBlock1() == gs.getCurrentBlock2()){
+                    deoccupy1(gs.getCurrentBlock1());
+                    gs.setCurrentBlock1(1);
+                    occupy1(1);
                 }
+
+                
+                 if(gs.whoWon()==null){               
+                    let outgoingMsg = Messages.O_B_MOVE;
+                    outgoingMsg.data = gs.getCurrentBlock2();
+                    socket.send(JSON.stringify(outgoingMsg));
+
+                    sb.setStatus(Status["playerWaiting"]); 
+                }
+                else{
+                    let finalMsg = Messages.O_GAME_WON_BY;
+                    finalMsg.data = gs.whoWon();
+                    socket.send(JSON.stringify(finalMsg));
+                    sb.setStatus(Status["gameWon"]+Status["playAgain"]);
+                }
+            }
             rollDice(moveFigure);
                
         }
@@ -279,20 +233,21 @@ function GameState(socket, sb){
         //Player A receives B players move and starts to move
         if( incomingMsg.type == Messages.T_B_MOVE && gs.getPlayerType()=="A"){
             console.log(incomingMsg.data);
-            console.log(gs.getCurrentBlock2());
+            sb.setStatus(Status["move"] + incomingMsg.data);
             gs.updateGame(gs.getCurrentBlock2(), incomingMsg.data);
-                       
+
+            sb.setStatus(Status["playerIntro"]);          
             function rollDice(callback){
                 const button = document.getElementById('button');
+                button.classList.add("diceActive");
+                button.disabled = false;
                 button.addEventListener('click', function singleclick(e) { 
                     console.log('button was clicked');
-                    var rolled = Math.floor((Math.random() * 6) + 1); // randomly generated number from one to six
-                    window.alert(rolled); // displays the rolled number in an alert
-                    gs.setRollednum(rolled); 
-                    console.log(gs.getRollednum());
+                    gs.roll();                   
 
                     callback();
-                    button.removeEventListener('click', singleclick, false);  
+                    button.removeEventListener('click', singleclick, false);
+                    button.classList.remove("diceActive");
                 });                     
             } 
             function moveFigure(){
@@ -302,14 +257,46 @@ function GameState(socket, sb){
                 gs.setCurrentBlock1(ladders(gs.getCurrentBlock1())); ///cheking if the hat stepped on the ladder
                 occupy1(gs.getCurrentBlock1()); 
 
-                let outgoingMsg = Messages.O_A_MOVE;
-                outgoingMsg.data = gs.getCurrentBlock1();
-                console.log(JSON.stringify(outgoingMsg));
-                socket.send(JSON.stringify(outgoingMsg));
-                console.log(outgoingMsg);
+                if(gs.getCurrentBlock1() == gs.getCurrentBlock2()){
+                    deoccupy2(gs.getCurrentBlock2());
+                    gs.setCurrentBlock2(1);
+                    occupy2(1);
+                }
+                if(gs.whoWon() == null){
+                    let outgoingMsg = Messages.O_A_MOVE;
+                    outgoingMsg.data = gs.getCurrentBlock1();
+                    
+                    socket.send(JSON.stringify(outgoingMsg));
+                    console.log(outgoingMsg);
+                    sb.setStatus(Status["playerWaiting"]); 
+                }
+                else {
+                    sb.setStatus(Status["gameWon"]+Status["playAgain"]);  
+                    let finalMsg = Messages.O_GAME_WON_BY;
+                    finalMsg.data = gs.whoWon();
+                    socket.send(JSON.stringify(finalMsg));
+                }
             }  
 
             rollDice(moveFigure);
+        }
+
+        if( incomingMsg.type == Messages.T_GAME_WON_BY && gs.getPlayerType()=="B"){
+            deoccupy1(gs.getCurrentBlock1());
+            gs.setCurrentBlock1(64);
+            occupy1(64);
+
+            sb.setStatus(Status["gameLost"]+Status["playAgain"]); 
+            socket.close();
+        }
+
+        if( incomingMsg.type == Messages.T_GAME_WON_BY && gs.getPlayerType()=="A"){
+            deoccupy2(gs.getCurrentBlock2());
+            gs.setCurrentBlock2(64);
+            occupy2(64);
+
+            sb.setStatus(Status["gameLost"]+Status["playAgain"]); 
+            socket.close();
         }
      
     };
@@ -321,7 +308,7 @@ function GameState(socket, sb){
     //server sends a close event only if the game was aborted from some side
     socket.onclose = function(){
         if(gs.whoWon()==null){
-            //sb.setStatus(Status["aborted"]);
+            sb.setStatus(Status["aborted"]);
         }
     };
 
