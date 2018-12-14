@@ -133,26 +133,6 @@ body{
       background-repeat: no-repeat;
   }
 
-  
-
-  /*Responsive button*/
-@media screen and (max-width: 1335px) and (min-height:900px) {
-    .btn {
-    	top: 10%;
-    	left: 50%;
-    	margin-right: -50%;
-        
-    }
-}
-
-@media screen and (max-width: 930px) {
-    .btn {
-        height:80px;
-        width:80px;
-        margin-left:10vh
-        
-    }
-}
 
   /*******BUTTON_END********/
 
@@ -432,5 +412,86 @@ body{
 }
 
 /* RULES & STATS END */
+
+/* Status Bar */
+
+#status{
+    margin:0;
+    margin-top:15%;
+    height:125px;
+    width:200px;
+    float:left;
+    font-size: 24px;
+    border: solid 5px rgba(118, 229, 78, 0.75);
+    border-radius: 15px;
+    transition: border-width 0.2s ease-in;
+    text-align: center;
+    padding:0.5%;
+}
+
+#status:hover { border-width: 7px; }
+
+#status span{ 
+    height:100%;
+    margin-bottom: 0;
+    font-family: Gobold;
+    font-size: 1em;
+    padding-top:15%;
+    color:white;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    letter-spacing: 2px;
+}
+
+/*Media queries*/
+
+    /* Responsive status bar */
+
+@media screen and (max-width: 950px) {
+    #status{
+        height:5%;
+        width:50%;
+        margin-left:25%;
+        margin-top:0;
+        transition: border-width 0.2s ease-in;
+    }
+
+    #status span{ 
+        height:100%;
+        margin-bottom: 0;
+        font-family: Gobold;
+        font-size: 0.85em;
+        padding-top:5%;
+        color:white;
+        text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+        letter-spacing: 2px;
+    }
+}
+
+@media screen and (min-width: 1250px) {
+    #status{
+        margin-left:5%;
+    }
+}
+
+
+    /*Responsive button*/
+@media screen and (max-width: 1150px) and (min-height:900px) {
+    .btn {
+    	top: 10%;
+    	left: 50%;
+    	margin-right: -50%;
+        
+    }
+}
+
+@media screen and (max-width: 930px) {
+    .btn {
+        height:80px;
+        width:80px;
+        margin-left:10vh
+        
+    }
+}
+
 
 
