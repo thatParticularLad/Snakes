@@ -128,45 +128,51 @@ function GameState(socket, sb){
             
             gs.setPlayerType( incomingMsg.data );//should be "A" or "B"
 
-            //if player type is A, (1) pick a word, and (2) sent it to the server
+            //if player type is A, (1) wait for B
             if (gs.getPlayerType() == "A") {               
 
-
-                sb.setStatus(Status["playerIntro"]);  
-                function rollDice(callback){
-                    const button = document.getElementById('button');
-                    button.classList.add("diceActive");                   
-                    button.addEventListener('click', function singleclick(e) {
-                        console.log('button was clicked');
-                        
-                        gs.roll();
-                        callback();
-                        button.removeEventListener('click', singleclick, false);
-                        button.classList.remove("diceActive");
-                        sb.setStatus(Status["playerWaiting"]);   
-                    }); 
-                                     
-                } 
-
-                function moveRolled(){          
-                    gs.setCurrentBlock1(gs.getCurrentBlock1() + gs.getRollednum()); //add the rolled number to the current position
-                    gs.setCurrentBlock1(snakes(gs.getCurrentBlock1())); //checking if the hat stepped on the snake
-                    gs.setCurrentBlock1(ladders(gs.getCurrentBlock1())); ///checking if the hat stepped on the ladder
-                    occupy1(gs.getCurrentBlock1());
-               
-                    let outgoingMsg = Messages.O_A_MOVE;
-                    outgoingMsg.data = gs.getCurrentBlock1();
-                    socket.send(JSON.stringify(outgoingMsg));
-                    console.log(outgoingMsg);
-
-                }              
-                
-                rollDice(moveRolled);               
-    
+                sb.setStatus(Status["playerWaitingB"]);  
             }
+            //if player type B, send READY message and wait for A to move
             else {
-                sb.setStatus(Status["playerWaiting"]);   
+                sb.setStatus(Status["playerWaiting"]);  
+                let outgoingMsg = Messages.O_B_READY;
+                socket.send(JSON.stringify(outgoingMsg)); 
             }
+        }
+
+        if( incomingMsg.type == Messages.T_B_READY && gs.getPlayerType() == "A"){
+            sb.setStatus(Status["playerIntro"]);  
+            function rollDice(callback){
+                const button = document.getElementById('button');
+                button.classList.add("diceActive");                   
+                button.addEventListener('click', function singleclick(e) {
+                    console.log('button was clicked');
+                    
+                    gs.roll();
+                    callback();
+                    button.removeEventListener('click', singleclick, false);
+                    button.classList.remove("diceActive");
+                    sb.setStatus(Status["playerWaiting"]);   
+                }); 
+                                 
+            } 
+
+            function moveRolled(){          
+                gs.setCurrentBlock1(gs.getCurrentBlock1() + gs.getRollednum()); //add the rolled number to the current position
+                gs.setCurrentBlock1(snakes(gs.getCurrentBlock1())); //checking if the hat stepped on the snake
+                gs.setCurrentBlock1(ladders(gs.getCurrentBlock1())); ///checking if the hat stepped on the ladder
+                occupy1(gs.getCurrentBlock1());
+           
+                let outgoingMsg = Messages.O_A_MOVE;
+                outgoingMsg.data = gs.getCurrentBlock1();
+                socket.send(JSON.stringify(outgoingMsg));
+                console.log(outgoingMsg);
+
+            }              
+            
+            rollDice(moveRolled);               
+
         }
 
         //Player B: wait for the made move and then start guessing ...

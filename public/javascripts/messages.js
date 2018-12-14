@@ -35,6 +35,14 @@
         data: "B"
     };
     exports.S_PLAYER_B = JSON.stringify(exports.O_PLAYER_B);
+   
+    //Player B to Server OR server to Plyer A: B is ready, make a move
+    exports.T_B_READY = "B-READY";
+    exports.O_B_READY = {                         
+        type: exports.T_B_READY,
+        data: null,       
+    };
+
 
 
     /* 

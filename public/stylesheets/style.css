@@ -95,6 +95,7 @@ body{
     animation: spin 3s infinite;
     animation-delay: 0ms;
     transform: translate(-35%, -50%);
+    cursor:pointer !important; /* labai nenorejau daryt per java scripta, gal jei vienas toks, nieko tokio */
 }
 
 .btn {
@@ -109,6 +110,7 @@ body{
     background: url("../images/dice_button.png");
     background-size: 100%;
     float:right;
+    cursor:default;
     
   }
 

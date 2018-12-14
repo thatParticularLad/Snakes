@@ -113,7 +113,12 @@ wss.on("connection", function(ws) {
         }            
       }
       else {
-         
+        
+        if(oMsg.type == messages.T_B_READY){
+              
+            gameObj.playerA.send(message);
+            //gameObj.setStatus("B MOVE");
+        }
                      
           /*
            * player B can make a move 
@@ -154,7 +159,8 @@ wss.on("connection", function(ws) {
             */
             let gameObj = websockets[con.id];
             if (gameObj.isValidTransition(gameObj.gameState, "0 JOINT")) {
-                console.log("in 1 joint ife");
+                currentGame.removePlayer();
+                console.log("Player A left before connecting to player B");
                 gameObj.setStatus("0 JOINT");
             }
 

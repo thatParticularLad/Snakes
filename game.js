@@ -113,5 +113,8 @@ game.prototype.addPlayer = function (p) {
         return "B";
     }
 };
+game.prototype.removePlayer = function (){
+    this.playerA = null;
+}
 
 module.exports = game;
